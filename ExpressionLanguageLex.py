@@ -9,7 +9,8 @@ reservadas = {
    'return' : 'RETURN'
 }
 tokens = ['COMMA', 'SOMA', 'ID', 'NUMBER', 'VEZES', 'POT', 'LPAREN',
-          'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV'] + list(reservadas.values())
+          'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV',  'OR', 'AND','MAIORQUE', 'MENORQUE', 'MAIORINGUAL',
+           'MENORIGUAL', 'DIFERENTE', 'IGUALDUPLO', 'BARRA', 'DIVISAO', "DIFERENCA"] + list(reservadas.values())
 
 t_IGUAL= r'='
 t_SOMA = r'\+'
@@ -21,6 +22,17 @@ t_COMMA = r','
 t_LCHAV = r'{'
 t_RCHAV = r'}'
 t_PV = r';'
+t_OU = r'\\'
+t_AND = '&&'
+t_MAIORQUE = '>'
+t_MENORQUE = '<'
+t_MAIORIGUAL = '\>\='
+t_MENORIGUAL = '\<\='
+t_DIFERENTE = '\!\='
+t_IGUALDUPLO = '\=\='
+t_BARRA = '|'
+t_DIVISAO = '\/'
+t_DIFERENCA = '\%'
 
 def t_ID(t):
    r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -35,6 +47,10 @@ def t_NUMBER(t):
 def t_newline(t):
    r'\n+'
    t.lexer.lineno += len(t.value)
+
+def t_STRING(t):
+    r'[\".*\"][\'.*\']'
+    return t
 
 t_ignore = ' \t'
 
