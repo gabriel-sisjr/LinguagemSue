@@ -9,8 +9,9 @@ reservadas = {
    'return' : 'RETURN'
 }
 tokens = ['COMMA', 'SOMA', 'ID', 'NUMBER', 'VEZES', 'POT', 'LPAREN',
-          'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV',  'OR', 'AND','MAIORQUE', 'MENORQUE', 'MAIORINGUAL',
-           'MENORIGUAL', 'DIFERENTE', 'IGUALDUPLO', 'BARRA', 'DIVISAO', "DIFERENCA"] + list(reservadas.values())
+          'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV', 'DIVISAO', 'DIFERENCA', 'DESLOCAMENTOESQ',
+          'DESLOCAMENTODIR','MENORQUE', 'MAIORQUE', 'MENORIGUAL', 'MAIORIGUAL',
+          'IGUALDUPLO', 'DIFERENTE', 'BARRA', 'AND', 'OR'] + list(reservadas.values())
 
 t_IGUAL= r'='
 t_SOMA = r'\+'
@@ -22,17 +23,19 @@ t_COMMA = r','
 t_LCHAV = r'{'
 t_RCHAV = r'}'
 t_PV = r';'
-t_OU = r'\\'
-t_AND = '&&'
-t_MAIORQUE = '>'
-t_MENORQUE = '<'
-t_MAIORIGUAL = '\>\='
-t_MENORIGUAL = '\<\='
-t_DIFERENTE = '\!\='
-t_IGUALDUPLO = '\=\='
-t_BARRA = '|'
-t_DIVISAO = '\/'
-t_DIFERENCA = '\%'
+t_DIVISAO = r'\/'
+t_DIFERENCA = r'\%'
+t_DESLOCAMENTOESQ = r'\<\<'
+t_DESLOCAMENTODIR = r'\>\>'
+t_MENORQUE = r'<'
+t_MAIORQUE = r'>'
+t_MENORIGUAL = r'\<\='
+t_MAIORIGUAL = r'\>\='
+t_IGUALDUPLO = r'\=\='
+t_DIFERENTE = r'\!\='
+t_BARRA = r'\|'
+t_AND = r'&&'
+t_OR = r'\|\|'
 
 def t_ID(t):
    r'[a-zA-Z_][a-zA-Z_0-9]*'
