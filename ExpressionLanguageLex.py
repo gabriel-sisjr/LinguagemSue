@@ -6,7 +6,15 @@ reservadas = {
    'while' : 'WHILE',
    'true' : 'TRUE',
    'false' : 'FALSE',
-   'return' : 'RETURN'
+   'return' : 'RETURN',
+   'for' : 'FOR',
+   'if' : 'IF',
+   'switch' : 'SWITCH',
+   'continue' : 'CONTINUE',
+   'break'  : 'BREAK',
+   'goto' : 'GOTO',
+   'case' : 'CASE',
+   'default' : 'DEFAULT'
 }
 tokens = ['COMMA', 'SOMA', 'ID', 'NUMBER', 'VEZES', 'POT', 'LPAREN',
           'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV', 'DIVISAO', 'DIFERENCA', 'DESLOCAMENTOESQ',
@@ -51,8 +59,9 @@ def t_newline(t):
    r'\n+'
    t.lexer.lineno += len(t.value)
 
+# String
 def t_STRING(t):
-    r'[\".*\"][\'.*\']'
+    r'[\".*?\"][\'.*?\']'
     return t
 
 t_ignore = ' \t'
