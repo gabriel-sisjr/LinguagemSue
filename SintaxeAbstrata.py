@@ -153,6 +153,12 @@ class SomaExp(Exp):
     def accept(self, visitor):
         return visitor.visitSomaExp(self)
 
+class SubtracaoExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitSubtracaoExp(self)
 
 class MulExp(Exp):
     def __init__(self, exp1, exp2):
@@ -161,6 +167,12 @@ class MulExp(Exp):
     def accept(self, visitor):
         return visitor.visitMulExp(self)
 
+class DivExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitDivExp(self)
 
 class PotExp(Exp):
     def __init__(self, exp1, exp2):

@@ -82,13 +82,23 @@ def p_exp_assign(p):
     else:
         p[0] = sa.AssignExp(p[1], p[3])
 
-def p_exp1_soma(p):
+## Ajuste para revisar
+def p_exp1(p):
     '''exp1 : exp1 SOMA exp2
+         | exp1 SUBTRACAO exp2
+         | exp1 VEZES exp2
+         | exp1 BARRA exp2
          | exp2'''
     if len(p) == 2:
         p[0] = p[1]
-    else:
+    elif(p[2] == '*'):
+        p[0] = sa.MulExp(p[1], p[3])
+    elif(p[2] == '/'):
+        p[0] = sa.DivExp(p[1], p[3])
+    elif(p[2] == '+'):
         p[0] = sa.SomaExp(p[1], p[3])
+    elif(p[2] == '-'):
+        p[0] = sa.SubtracaoExp(p[1], p[3])
 
 
 def p_exp2_vezes(p):
@@ -107,6 +117,9 @@ def p_exp3_pot(p):
         p[0] = p[1]
     else:
         p[0] = sa.PotExp(p[1], p[3])
+
+def p_exp5_divisao(p):
+    ''' exp5 : exp6 DIVISAO exp6'''
 
 def p_exp4_call(p):
     '''exp4 : call
