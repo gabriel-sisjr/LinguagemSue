@@ -74,21 +74,26 @@ def p_stm(p):
     else:
         print('Gerei None', p[1])
 
-def p_exp_assign(p):
-    ''' exp :    exp IGUAL exp1
-              | exp1'''
-    if (len(p) == 2):
-        p[0] = p[1]
-    else:
-        p[0] = sa.AssignExp(p[1], p[3])
-
 ## Ajuste para revisar
-def p_exp1(p):
-    '''exp1 : exp1 SOMA exp2
-         | exp1 SUBTRACAO exp2
-         | exp1 VEZES exp2
-         | exp1 BARRA exp2
-         | exp2'''
+def p_exp(p):
+    '''exp : exp SOMA exp1
+         | exp SUBTRACAO exp1
+         | exp VEZES exp1
+         | exp BARRA exp1
+         | exp POT exp1
+         | exp IGUAL exp1
+         | exp DIFERENCA exp1
+         | exp DESLOCAMENTOESQ exp1
+         | exp DESLOCAMENTODIR exp1
+         | exp MENORQUE exp1
+         | exp MAIORQUE exp1
+         | exp MENORIGUAL exp1
+         | exp MAIORIGUAL exp1
+         | exp IGUALDUPLO exp1
+         | exp DIFERENTE exp1
+         | exp AND exp1
+         | exp OR exp1
+         | exp1'''
     if len(p) == 2:
         p[0] = p[1]
     elif(p[2] == '*'):
@@ -99,27 +104,32 @@ def p_exp1(p):
         p[0] = sa.SomaExp(p[1], p[3])
     elif(p[2] == '-'):
         p[0] = sa.SubtracaoExp(p[1], p[3])
-
-
-def p_exp2_vezes(p):
-   '''exp2 : exp2 VEZES exp3
-           | exp3'''
-   if len(p) == 2:
-       p[0] = p[1]
-   else:
-       p[0] = sa.MulExp(p[1], p[3])
-
-
-def p_exp3_pot(p):
-    '''exp3 : exp4 POT exp3
-            | exp4'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
+    elif(p[2] == '^'):
         p[0] = sa.PotExp(p[1], p[3])
-
-def p_exp5_divisao(p):
-    ''' exp5 : exp6 DIVISAO exp6'''
+    elif(p[2] == '='):
+        p[0] = sa.AssignExp(p[1], p[3])
+    elif(p[2] == '%'):
+        p[0] = sa.DifExp(p[1], p[3])
+    elif(p[2] == '<<'):
+        p[0] = sa.LdescExp(p[1], p[3])
+    elif(p[2] == '>>'):
+        p[0] = sa.RdescExp(p[1], p[3])
+    elif(p[2] == '<'):
+        p[0] = sa.MenorQueExp(p[1], p[3])
+    elif(p[2] == '>'):
+        p[0] = sa.MaiorQueExp(p[1], p[3])
+    elif(p[2] == '<='):
+        p[0] = sa.MenorIgualExp(p[1], p[3])
+    elif(p[2] == '>='):
+        p[0] = sa.MaiorIgualExp(p[1], p[3])
+    elif(p[2] == '=='):
+        p[0] = sa.DuploIgualExp(p[1], p[3])
+    elif(p[2] == '!='):
+        p[0] = sa.DiferenteExp(p[1], p[3])
+    elif(p[2] == '&&'):
+        p[0] = sa.AndExp(p[1], p[3])
+    elif(p[2] == '||'):
+        p[0] = sa.OrExp(p[1], p[3])
 
 def p_exp4_call(p):
     '''exp4 : call

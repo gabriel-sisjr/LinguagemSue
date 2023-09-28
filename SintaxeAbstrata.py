@@ -174,6 +174,24 @@ class DivExp(Exp):
     def accept(self, visitor):
         return visitor.visitDivExp(self)
 
+class LdescExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitLdescExp(self)
+class RdescExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitRdescExp(self)
+class DifExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitDifExp(self)
 class PotExp(Exp):
     def __init__(self, exp1, exp2):
         self.exp1 = exp1
@@ -181,6 +199,60 @@ class PotExp(Exp):
     def accept(self, visitor):
         return visitor.visitPotExp(self)
 
+class MenorQueExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitMenorQueExp(self)
+    
+class MaiorQueExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitMaiorQueExp(self)
+    
+class MenorIgualExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitMenorIgualExp(self)
+
+class MaiorIgualExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitMaiorIgualExp(self)
+    
+class DuploIgualExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitDuploIgualExp(self)
+
+class DiferenteExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitDiferenteExp(self)  
+class AndExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitAndExp(self)
+    
+class OrExp(Exp):
+    def __init__(self, exp1, exp2):
+        self.exp1 = exp1
+        self.exp2 = exp2
+    def accept(self, visitor):
+        return visitor.visitOrExp(self)
 
 class CallExp(Exp, Stm):
     def __init__(self, call):

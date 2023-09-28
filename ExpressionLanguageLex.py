@@ -16,13 +16,14 @@ reservadas = {
    'case' : 'CASE',
    'default' : 'DEFAULT'
 }
-tokens = ['COMMA', 'SOMA', 'ID', 'NUMBER', 'VEZES', 'POT', 'LPAREN',
+tokens = ['COMMA', 'SOMA', 'SUBTRACAO','ID', 'NUMBER', 'VEZES', 'POT', 'LPAREN',
           'RPAREN', 'IGUAL', 'LCHAV', 'RCHAV', 'PV', 'DIVISAO', 'DIFERENCA', 'DESLOCAMENTOESQ',
           'DESLOCAMENTODIR','MENORQUE', 'MAIORQUE', 'MENORIGUAL', 'MAIORIGUAL',
           'IGUALDUPLO', 'DIFERENTE', 'BARRA', 'AND', 'OR'] + list(reservadas.values())
 
 t_IGUAL= r'='
 t_SOMA = r'\+'
+t_SUBTRACAO = r'\-'
 t_VEZES = r'\*'
 t_POT = r'\^'
 t_LPAREN = r'\('
@@ -61,7 +62,7 @@ def t_newline(t):
 
 # String
 def t_STRING(t):
-    r'[\".*?\"][\'.*?\']'
+    r'\"([^\\\n]|(\\.))*?\"'
     return t
 
 t_ignore = ' \t'
@@ -72,7 +73,7 @@ def t_error(t):
 
 
 def main():
-   f = open("input1.su", "r")
+   f = open("input1.1", "r")
    lexer = lex.lex(debug=1)
    lexer.input(f.read())
    print('\n\n# lexer output:')
