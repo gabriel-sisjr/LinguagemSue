@@ -9,6 +9,7 @@ reservadas = {
    'return' : 'RETURN',
    'for' : 'FOR',
    'if' : 'IF',
+   'else': 'ELSE',
    'switch' : 'SWITCH',
    'continue' : 'CONTINUE',
    'break'  : 'BREAK',
@@ -62,7 +63,7 @@ def t_newline(t):
 
 # String
 def t_STRING(t):
-    r'\"([^\\\n]|(\\.))*?\"'
+    r'(\"([^\\\n]|(\\.))*?\") | (\'([^\\\n]|(\\.))*?\')'
     return t
 
 t_ignore = ' \t'
