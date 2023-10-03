@@ -186,12 +186,12 @@ class RdescExp(Exp):
         self.exp2 = exp2
     def accept(self, visitor):
         return visitor.visitRdescExp(self)
-class DifExp(Exp):
+class DiferancaExp(Exp):
     def __init__(self, exp1, exp2):
         self.exp1 = exp1
         self.exp2 = exp2
     def accept(self, visitor):
-        return visitor.visitDifExp(self)
+        return visitor.visitDiferencaExp(self)
 class PotExp(Exp):
     def __init__(self, exp1, exp2):
         self.exp1 = exp1
