@@ -62,17 +62,51 @@ def p_stms(p):
         p[0] = sa.CompoundStm(p[1], p[2])
 
 def p_stm(p):
-    ''' stm :  exp PV
-             | WHILE LPAREN exp RPAREN body
-             | RETURN exp PV'''
-    if (len(p) == 3):
-        p[0] = sa.StmExp(p[1])
-    elif (p[1] == 'while'):
-        p[0] = sa.StmWhile(p[3], p[5])
-    elif (p[1] == 'return'):
-        p[0] = sa.StmReturn(p[2])
-    else:
-        print('Gerei None', p[1])
+    ''' stm :  exp PV '''
+    p[0] = sa.StmExp(p[1])
+
+def p_stm_while(p):
+    ''' stm : WHILE LPAREN opt_exp RPAREN body'''
+    p[0] = sa.StmWhile(p[3], p[5])
+
+def p_stm_return(p):
+    ''' stm : RETURN exp PV '''
+    p[0] = sa.StmReturn(p[2])
+
+def p_stm_forSingle(p):
+    ''' stm : FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN stm '''
+    p[0] = sa.StmForSingle(p[3], p[5], p[7], p[9]);
+
+def p_stm_forBlock(p):
+    ''' stm : FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN body '''
+    p[0] = sa.StmForBlock(p[3], p[5], p[7], p[9]);
+
+def p_stm_if(p):
+    ''' stm : IF LPAREN exp RPAREN body optElse
+            | IF LPAREN exp RPAREN stm optElse '''
+
+def p_stm_optElse(p):
+    ''' optElse : ELSE body
+                | ELSE stm
+                | '''
+
+def p_stm_GoTo(p):
+    ''' stm : GOTO ID PV '''
+    p[0] = sa.StmGoTo(p[2])
+
+def p_stm_break(p):
+    ''' stm : BREAK '''
+    p[0] = sa.StmBreak()
+
+def p_stm_continue(p):
+    ''' stm : CONTINUE '''
+    p[0] = sa.StmContinue()
+
+def p_opt_exp(p):
+    ''' opt_exp : exp
+                | '''
+    if len(p) == 2:
+        p[0] = p[1]
 
 def p_exp(p):
     '''exp : exp IGUAL exp1
@@ -223,20 +257,10 @@ def p_exp4_boolean(p):
             |  FALSE '''
     p[0] = sa.BooleanExp(p[1])
 
+
 def p_exp4_call(p):
-    '''exp4 : call
-            | NUMBER
-            | ID
-            | TRUE
-            | FALSE'''
-    if isinstance(p[1], sa.Call):
-        p[0] = sa.CallExp(p[1])
-    elif isinstance(p[1], int):
-        p[0] = sa.NumExp(p[1])
-    elif (p[1] == 'true' or p[1] == 'false'):
-        p[0] = sa.BooleanExp(p[1])
-    else:
-        p[0] = sa.IdExp(p[1])
+    '''exp4 : call'''
+    p[0] = sa.CallExp(p[1])
 
 
 def p_call_id_params(p):

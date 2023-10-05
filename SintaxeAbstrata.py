@@ -129,6 +129,46 @@ class StmReturn(Stm):
     def accept(self, visitor):
         return visitor.visitStmReturn(self)
 
+class StmForSingle(Stm):
+    def __init__(self, exp, exp2, exp3, stm):
+        self.exp = exp
+        self.exp2 = exp2
+        self.exp3 = exp3
+        self.stm = stm
+    def accept(self, visitor):
+        return visitor.visitStmForSingle(self)
+    
+class StmForBlock(Stm):
+    def __init__(self, exp, exp2, exp3, block):
+        self.exp = exp
+        self.exp2 = exp2
+        self.exp3 = exp3
+        self.block = block
+    def accept(self, visitor):
+        return visitor.visitStmForBlock(self)
+
+class StmIf(Stm):
+    def __init__(self, label):
+        self.label = label
+    def accept(self, visitor):
+        return visitor.visitStmGoTo(self)
+
+
+
+class StmGoTo(Stm):
+    def __init__(self, label):
+        self.label = label
+    def accept(self, visitor):
+        return visitor.visitStmGoTo(self)
+
+class StmContinue(Stm):
+    def accept(self, visitor):
+        return visitor.visitStmContinue(self)
+
+class StmBreak(Stm):
+    def accept(self, visitor):
+        return visitor.visitStmBreak(self)
+
 '''
 Expressoes
 Exp
