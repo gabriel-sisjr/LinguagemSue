@@ -75,11 +75,23 @@ class Visitor(AbstractVisitor):
         print(' + ', end='')
         somaExp.exp2.accept(self)
 
+    def visitSubtracaoExp(self, subExp):
+        # print("visitSubExp")
+        subExp.exp1.accept(self)
+        print(' - ', end='')
+        subExp.exp2.accept(self)
+
     def visitMulExp(self, mulExp):
         # print("visitMulExp")
         mulExp.exp1.accept(self)
         print(' * ', end='')
         mulExp.exp2.accept(self)
+
+    def visitMulExp(self, devExp):
+        # print("visitDivExp")
+        devExp.exp1.accept(self)
+        print(' * ', end='')
+        devExp.exp2.accept(self)
 
     def visitPotExp(self, potExp):
         # print("visitPotExp")
