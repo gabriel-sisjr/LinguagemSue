@@ -81,23 +81,42 @@ class Visitor(AbstractVisitor):
         print(' - ', end='')
         subExp.exp2.accept(self)
 
-    def visitDivExp(self, mulExp):
+    def visitDivExp(self, divExp):
         # print("visitMulExp")
-        mulExp.exp1.accept(self)
+        divExp.exp1.accept(self)
         print(' / ', end='')
-        mulExp.exp2.accept(self)
+        divExp.exp2.accept(self)
 
-    def visitMulExp(self, devExp):
+    def visitMulExp(self, mulExp):
         # print("visitDivExp")
-        devExp.exp1.accept(self)
+        mulExp.exp1.accept(self)
         print(' * ', end='')
-        devExp.exp2.accept(self)
+        mulExp.exp2.accept(self)
 
     def visitPotExp(self, potExp):
         # print("visitPotExp")
         potExp.exp1.accept(self)
         print(' ^ ', end='')
         potExp.exp2.accept(self)
+
+    def visitDiferencaExp(self, difExp):
+        # print("visitPotExp")
+        difExp.exp1.accept(self)
+        print(' % ', end='')
+        difExp.exp2.accept(self)
+
+    ## duvida aula    
+    def visitLdescExp(self, lDescExp):
+        # print("visitPotExp")
+        lDescExp.exp1.accept(self)
+        print(' << ', end='')
+        lDescExp.exp2.accept(self)
+
+    def visitRdescExp(self, rDescExp):
+        # print("visitPotExp")
+        rDescExp.exp1.accept(self)
+        print(' >> ', end='')
+        rDescExp.exp2.accept(self)
 
     def visitCallExp(self, callExp):
         # print("visitCallExp")
