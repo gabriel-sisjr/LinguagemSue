@@ -81,10 +81,10 @@ class Visitor(AbstractVisitor):
         print(' - ', end='')
         subExp.exp2.accept(self)
 
-    def visitMulExp(self, mulExp):
+    def visitDivExp(self, mulExp):
         # print("visitMulExp")
         mulExp.exp1.accept(self)
-        print(' * ', end='')
+        print(' / ', end='')
         mulExp.exp2.accept(self)
 
     def visitMulExp(self, devExp):
