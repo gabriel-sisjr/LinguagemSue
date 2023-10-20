@@ -82,13 +82,13 @@ class Visitor(AbstractVisitor):
         subExp.exp2.accept(self)
 
     def visitDivExp(self, divExp):
-        # print("visitMulExp")
+        # print("visitDivExp")
         divExp.exp1.accept(self)
         print(' / ', end='')
         divExp.exp2.accept(self)
 
     def visitMulExp(self, mulExp):
-        # print("visitDivExp")
+        # print("visitMulExp")
         mulExp.exp1.accept(self)
         print(' * ', end='')
         mulExp.exp2.accept(self)
@@ -100,23 +100,88 @@ class Visitor(AbstractVisitor):
         potExp.exp2.accept(self)
 
     def visitDiferencaExp(self, difExp):
-        # print("visitPotExp")
+        # print("visitDiferencaExp")
         difExp.exp1.accept(self)
         print(' % ', end='')
         difExp.exp2.accept(self)
-
-    ## duvida aula    
+   
     def visitLdescExp(self, lDescExp):
-        # print("visitPotExp")
+        # print("visitLdescExp")
         lDescExp.exp1.accept(self)
         print(' << ', end='')
         lDescExp.exp2.accept(self)
 
     def visitRdescExp(self, rDescExp):
-        # print("visitPotExp")
+        # print("visitRdescExp")
         rDescExp.exp1.accept(self)
         print(' >> ', end='')
         rDescExp.exp2.accept(self)
+
+    def visitMenorQueExp(self, menorExp):
+        # print("visitMenorQueExp")
+        menorExp.exp1.accept(self)
+        print(' < ', end='')
+        menorExp.exp2.accept(self)
+
+    def visitMaiorQueExp(self, maiorExp):
+        # print("visitMaiorQueExp")
+        maiorExp.exp1.accept(self)
+        print(' > ', end='')
+        maiorExp.exp2.accept(self)
+
+    def visitMenorIgualExp(self, menorIgaulExp):
+        # print("visitMenorIgualExp")
+        menorIgaulExp.exp1.accept(self)
+        print(' <= ', end='')
+        menorIgaulExp.exp2.accept(self)
+
+    def visitMaiorIgualExp(self, maiorIgualExp):
+        # print("visitMaiorIgualExp")
+        maiorIgualExp.exp1.accept(self)
+        print(' >= ', end='')
+        maiorIgualExp.exp2.accept(self)
+
+    def visitDuploIgualExp(self, duploIgualExp):
+        # print("visitDuploIgualExp")
+        duploIgualExp.exp1.accept(self)
+        print(' == ', end='')
+        duploIgualExp.exp2.accept(self)
+
+    def visitDiferenteExp(self, difExp):
+        # print("visitDiferenteExp")
+        difExp.exp1.accept(self)
+        print(' ! ', end='')
+        difExp.exp2.accept(self)
+
+    def visitAndExp(self, andExp):
+        # print("visitAndExp")
+        andExp.exp1.accept(self)
+        print(' && ', end='')
+        andExp.exp2.accept(self)
+
+    def visitOrExp(self, orExp):
+        # print("visitOrExp")
+        orExp.exp1.accept(self)
+        print(' || ', end='')
+        orExp.exp2.accept(self)
+
+    def visitStmForSingle(self, stm):
+        print('for (', end='')
+        stm.exp.accept(self)
+        print(';', end='')
+        stm.exp2.accept(self)
+        print(';', end='')
+        stm.exp3.accept(self)
+        print(')', end='')
+
+    def visitStmForBlock(self, block):
+        print('for (', end='')
+        block.exp.accept(self)
+        print(';', end='')
+        block.exp2.accept(self)
+        print(';', end='')
+        block.exp3.accept(self)
+        print(')', end='')
 
     def visitCallExp(self, callExp):
         # print("visitCallExp")

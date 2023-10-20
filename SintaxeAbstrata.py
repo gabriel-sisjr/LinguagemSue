@@ -153,8 +153,6 @@ class StmIf(Stm):
     def accept(self, visitor):
         return visitor.visitStmGoTo(self)
 
-
-
 class StmGoTo(Stm):
     def __init__(self, label):
         self.label = label
@@ -227,6 +225,7 @@ class RdescExp(Exp):
         self.exp2 = exp2
     def accept(self, visitor):
         return visitor.visitRdescExp(self)
+
 class DiferancaExp(Exp):
     def __init__(self, exp1, exp2):
         self.exp1 = exp1
@@ -239,7 +238,7 @@ class PotExp(Exp):
         self.exp2 = exp2
     def accept(self, visitor):
         return visitor.visitPotExp(self)
-
+    
 class MenorQueExp(Exp):
     def __init__(self, exp1, exp2):
         self.exp1 = exp1
