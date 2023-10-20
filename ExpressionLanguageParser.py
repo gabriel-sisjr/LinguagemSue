@@ -81,14 +81,29 @@ def p_stm_forBlock(p):
     ''' stm : FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN body '''
     p[0] = sa.StmForBlock(p[3], p[5], p[7], p[9]);
 
-def p_stm_if(p):
-    ''' stm : IF LPAREN exp RPAREN body optElse
-            | IF LPAREN exp RPAREN stm optElse '''
+def p_stm_ifSingle(p):
+    ''' stm : IF LPAREN exp RPAREN stm optElse '''
+    p[0] = sa.StmIfSingle(p[3], p[5]);
 
-def p_stm_optElse(p):
+def p_stm_ifBlock(p): 
+    ''' stm : IF LPAREN exp RPAREN body optElse '''
+    p[0] = sa.StmIfBlock(p[3], p[5]);
+
+def p_stm_optElseBlock(p):
     ''' optElse : ELSE body
-                | ELSE stm
                 | '''
+    if(len(p) == 2):
+        p[0] = sa.StmElseBlock(p[2])
+    else:
+       p[0] = ''  
+
+def p_stm_optElseSingle(p):
+    ''' optElse : ELSE stm
+                | '''
+    if(len(p) == 2):
+        p[0] = sa.StmElseSingle(p[2])
+    else:
+       p[0] = ''
 
 def p_stm_GoTo(p):
     ''' stm : GOTO ID PV '''
