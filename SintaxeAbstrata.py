@@ -165,13 +165,13 @@ class StmElseSingle(Stm):
     def __init__(self, stm):
         self.stm = stm
     def accept(self, visitor):
-        return visitor.visitStmElseSingle(self)
+        return visitor.visitStmElse(self)
     
 class StmElseBlock(Stm):
     def __init__(self, block):
         self.block = block
     def accept(self, visitor):
-        return visitor.visitStmElseBlock(self)
+        return visitor.visitStmElse(self)
     
 class StmGoTo(Stm):
     def __init__(self, label):

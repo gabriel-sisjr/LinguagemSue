@@ -183,6 +183,19 @@ class Visitor(AbstractVisitor):
         block.exp3.accept(self)
         print(')', end='')
 
+    def visitStmIfSingle(self, stm):
+        print('if (', end='')
+        stm.exp.accept(self)
+        print(')', end='')
+
+    def visitStmIfBlock(self, block):
+        print('if (', end='')
+        block.exp.accept(self)
+        print(')', end='')
+
+    def visitStmElse(self):
+        print('else', end='')
+
     def visitCallExp(self, callExp):
         # print("visitCallExp")
         callExp.call.accept(self)
