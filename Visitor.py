@@ -183,18 +183,24 @@ class Visitor(AbstractVisitor):
         block.exp3.accept(self)
         print(')', end='')
 
-    def visitStmIfSingle(self, stm):
-        print('if (', end='')
+    def visitStmIf(self, stm):
+        global tab
+        print(blank(), 'if (', end='')
         stm.exp.accept(self)
-        print(')', end='')
-
-    def visitStmIfBlock(self, block):
-        print('if (', end='')
-        block.exp.accept(self)
-        print(')', end='')
-
-    def visitStmElse(self):
-        print('else', end='')
+        print(') \n', end='')
+        tab =  tab + 3
+        if(stm.stm != None):
+            stm.stm.accept(self)
+        if(stm.block != None):
+            stm.block.accept(self)
+        tab =  tab - 3
+        print(blank(), 'else \n', end='')
+        tab =  tab + 3
+        if(stm.stm2 != None):
+            stm.stm2.accept(self)
+        if(stm.block2 != None):
+            stm.block2.accept(self)
+        tab =  tab - 3
 
     def visitCallExp(self, callExp):
         # print("visitCallExp")

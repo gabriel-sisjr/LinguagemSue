@@ -83,27 +83,31 @@ def p_stm_forBlock(p):
 
 def p_stm_ifSingle(p):
     ''' stm : IF LPAREN exp RPAREN stm optElse '''
-    p[0] = sa.StmIfSingle(p[3], p[5]);
+    if(p[6] != None):
+        p[6].exp = p[3]
+        p[6].stm = p[5]
+        p[0] = p[6]
+    else:
+        p[0] = sa.StmIf(p[3], stm=p[5]);
 
 def p_stm_ifBlock(p): 
     ''' stm : IF LPAREN exp RPAREN body optElse '''
-    p[0] = sa.StmIfBlock(p[3], p[5]);
+    if(p[6] != None):
+        p[6].exp = p[3]
+        p[6].stm = p[5]
+        p[0] = p[6]
+    else:
+        p[0] = sa.StmIf(p[3], block=p[5]);
 
 def p_stm_optElseBlock(p):
     ''' optElse : ELSE body
                 | '''
     if(len(p) == 2):
-        p[0] = sa.StmElseBlock(p[2])
-    else:
-       p[0] = ''  
+        p[0] = sa.StmIf(block2=p[2]) 
 
 def p_stm_optElseSingle(p):
-    ''' optElse : ELSE stm
-                | '''
-    if(len(p) == 2):
-        p[0] = sa.StmElseSingle(p[2])
-    else:
-       p[0] = ''
+    ''' optElse : ELSE stm '''
+    p[0] = sa.StmIf(stm2=p[2]) 
 
 def p_stm_GoTo(p):
     ''' stm : GOTO ID PV '''
@@ -123,6 +127,102 @@ def p_opt_exp(p):
     if len(p) == 2:
         p[0] = p[1]
 
+def p_exp_potencia(p):
+    '''exp8 : exp8 POT exp9
+         | exp9'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.PotExp(p[1], p[3])
+
+def p_exp_multiplicacao(p):
+    '''exp7 : exp7 VEZES exp8
+         | exp8'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.MulExp(p[1], p[3])
+
+def p_exp_divisao(p):
+    '''exp7 : exp7 BARRA exp8 '''
+    p[0] = sa.DivExp(p[1], p[3])
+
+def p_exp_diferenca(p):
+    '''exp7 : exp7 DIFERENCA exp8 '''
+    p[0] = sa.DiferancaExp(p[1], p[3])
+
+def p_exp_soma(p):
+    '''exp6 : exp6 SOMA exp7
+         | exp7'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.SomaExp(p[1], p[3])
+
+def p_exp_subtracao(p):
+    '''exp6 : exp6 SUBTRACAO exp7 '''
+    p[0] = sa.SubtracaoExp(p[1], p[3])
+
+def p_exp_Ldesc(p):
+    '''exp5 : exp5 DESLOCAMENTOESQ exp6
+         | exp6'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.LdescExp(p[1], p[3])
+
+def p_exp_Rdesc(p):
+    '''exp5 : exp5 DESLOCAMENTODIR exp6 '''
+    p[0] = sa.RdescExp(p[1], p[3])
+
+def p_exp_menorQue(p):
+    '''exp4 : exp4 MENORQUE exp5 '''
+    p[0] = sa.MenorQueExp(p[1], p[3])
+
+def p_exp_maiorQue(p):
+    '''exp4 : exp4 MAIORQUE exp5 '''
+    p[0] = sa.MaiorQueExp(p[1], p[3])
+
+def p_exp_menorIgual(p):
+    '''exp4 : exp4 MENORIGUAL exp5 '''
+    p[0] = sa.MenorIgualExp(p[1], p[3])
+
+def p_exp_maiorIgual(p):
+    '''exp4 : exp4 MAIORIGUAL exp5
+         | exp5'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.MaiorIgualExp(p[1], p[3])
+
+def p_exp_igualDuplo(p):
+    '''exp3 : exp3 IGUALDUPLO exp4
+            | exp4 '''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.DuploIgualExp(p[1], p[3])
+
+def p_exp_diferente(p):
+    '''exp3 : exp3 DIFERENTE exp4 '''
+    p[0] = sa.DiferenteExp(p[1], p[3])
+
+def p_exp_and(p):
+    '''exp2 : exp2 AND exp3
+         | exp3'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.AndExp(p[1], p[3])
+
+def p_exp_or(p):
+    '''exp1 : exp1 OR exp2
+         | exp2'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+       p[0] = sa.OrExp(p[1], p[3])
+
 def p_exp(p):
     '''exp : exp IGUAL exp1
          | exp1'''
@@ -131,150 +231,22 @@ def p_exp(p):
     else:
         p[0] = sa.AssignExp(p[1], p[3])
 
-def p_exp_soma(p):
-    '''exp : exp SOMA exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.SomaExp(p[1], p[3])
-
-def p_exp_subtracao(p):
-    '''exp : exp SUBTRACAO exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.SubtracaoExp(p[1], p[3])
-
-def p_exp_multiplicacao(p):
-    '''exp : exp VEZES exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.MulExp(p[1], p[3])
-
-def p_exp_divisao(p):
-    '''exp : exp BARRA exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.DivExp(p[1], p[3])
-
-def p_exp_potencia(p):
-    '''exp : exp POT exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.PotExp(p[1], p[3])
-
-def p_exp_diferenca(p):
-    '''exp : exp DIFERENCA exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.DiferancaExp(p[1], p[3])
-
-def p_exp_Ldesc(p):
-    '''exp : exp DESLOCAMENTOESQ exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.LdescExp(p[1], p[3])
-
-def p_exp_Rdesc(p):
-    '''exp : exp DESLOCAMENTODIR exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.RdescExp(p[1], p[3])
-
-def p_exp_menorQue(p):
-    '''exp : exp MENORQUE exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.MenorQueExp(p[1], p[3])
-
-def p_exp_maiorQue(p):
-    '''exp : exp MAIORQUE exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.MaiorQueExp(p[1], p[3])
-
-def p_exp_menorIgual(p):
-    '''exp : exp MENORIGUAL exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.MenorIgualExp(p[1], p[3])
-
-def p_exp_maiorIgual(p):
-    '''exp : exp MAIORIGUAL exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.MaiorIgualExp(p[1], p[3])
-
-def p_exp_igualDuplo(p):
-    '''exp : exp IGUALDUPLO exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.DuploIgualExp(p[1], p[3])
-
-def p_exp_diferente(p):
-    '''exp : exp DIFERENTE exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.DiferenteExp(p[1], p[3])
-
-def p_exp_and(p):
-    '''exp : exp AND exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.AndExp(p[1], p[3])
-
-def p_exp_or(p):
-    '''exp : exp OR exp1
-         | exp1'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-       p[0] = sa.OrExp(p[1], p[3])
-
-def p_exp4_number(p):
-    '''exp4 :  NUMBER '''
+def p_exp9_number(p):
+    '''exp9 :  NUMBER '''
     p[0] = sa.NumExp(p[1])
 
-def p_exp4_id(p):
-    '''exp4 :  ID '''
+def p_exp9_id(p):
+    '''exp9 :  ID '''
     p[0] = sa.IdExp(p[1])
 
-def p_exp4_boolean(p):
-    '''exp4 :  TRUE
+def p_exp9_boolean(p):
+    '''exp9 :  TRUE
             |  FALSE '''
     p[0] = sa.BooleanExp(p[1])
 
 
-def p_exp4_call(p):
-    '''exp4 : call'''
+def p_exp9_call(p):
+    '''exp9 : call'''
     p[0] = sa.CallExp(p[1])
 
 

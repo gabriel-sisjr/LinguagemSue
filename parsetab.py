@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COMMA FALSE ID IGUAL LCHAV LPAREN NUMBER POT PV RCHAV RETURN RPAREN SOMA TRUE VEZES WHILEprogram : funcdecl\n                | funcdecl program\n                funcdecl : signature bodysignature : ID ID LPAREN sigparams RPAREN\n                 | ID ID LPAREN RPARENsigparams : ID ID\n                  | ID ID COMMA sigparams\n     body : LCHAV stms RCHAV\n             | LCHAV RCHAV stms : stm\n            | stm stms stm :  exp PV\n             | WHILE LPAREN exp RPAREN body\n             | RETURN exp PV exp :    exp IGUAL exp1\n              | exp1exp1 : exp1 SOMA exp2\n         | exp2exp2 : exp2 VEZES exp3\n           | exp3exp3 : exp4 POT exp3\n            | exp4exp4 : call\n            | NUMBER\n            | ID\n            | TRUE\n            | FALSEcall : ID LPAREN params RPAREN\n            | ID LPAREN RPARENparams : exp COMMA params\n            | exp '
+_lr_signature = 'AND BARRA BREAK CASE COMMA CONTINUE DEFAULT DESLOCAMENTODIR DESLOCAMENTOESQ DIFERENCA DIFERENTE DIVISAO ELSE FALSE FOR GOTO ID IF IGUAL IGUALDUPLO LCHAV LPAREN MAIORIGUAL MAIORQUE MENORIGUAL MENORQUE NUMBER OR POT PV RCHAV RETURN RPAREN SOMA SUBTRACAO SWITCH TRUE VEZES WHILEprogram : funcdecl\n                | funcdecl program\n                funcdecl : signature bodysignature : ID ID LPAREN sigparams RPAREN\n                 | ID ID LPAREN RPARENsigparams : ID ID\n                  | ID ID COMMA sigparams\n     body : LCHAV stms RCHAV\n             | LCHAV RCHAV stms : stm\n            | stm stms stm :  exp PV  stm : WHILE LPAREN opt_exp RPAREN body stm : RETURN exp PV  stm : FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN stm  stm : FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN body  stm : IF LPAREN exp RPAREN stm optElse  stm : IF LPAREN exp RPAREN body optElse  optElse : ELSE body\n                |  optElse : ELSE stm  stm : GOTO ID PV  stm : BREAK  stm : CONTINUE  opt_exp : exp\n                | exp8 : exp8 POT exp9\n         | exp9exp7 : exp7 VEZES exp8\n         | exp8exp7 : exp7 BARRA exp8 exp7 : exp7 DIFERENCA exp8 exp6 : exp6 SOMA exp7\n         | exp7exp6 : exp6 SUBTRACAO exp7 exp5 : exp5 DESLOCAMENTOESQ exp6\n         | exp6exp5 : exp5 DESLOCAMENTODIR exp6 exp4 : exp4 MENORQUE exp5 exp4 : exp4 MAIORQUE exp5 exp4 : exp4 MENORIGUAL exp5 exp4 : exp4 MAIORIGUAL exp5\n         | exp5exp3 : exp3 IGUALDUPLO exp4\n            | exp4 exp3 : exp3 DIFERENTE exp4 exp2 : exp2 AND exp3\n         | exp3exp1 : exp1 OR exp2\n         | exp2exp : exp IGUAL exp1\n         | exp1exp9 :  NUMBER exp9 :  ID exp9 :  TRUE\n            |  FALSE exp9 : callcall : ID LPAREN params RPAREN\n            | ID LPAREN RPARENparams : exp COMMA params\n            | exp '
     
-_lr_action_items = {'ID':([0,2,4,6,7,10,11,14,24,25,27,28,29,31,32,33,34,35,40,51,52,53,],[4,4,8,-3,21,-9,21,21,35,-8,-12,21,21,21,21,21,21,47,-14,21,35,-13,]),'$end':([1,2,5,6,10,25,],[0,-1,-2,-3,-9,-8,]),'LCHAV':([3,37,48,49,],[7,-5,-4,7,]),'RCHAV':([7,9,10,11,25,26,27,40,53,],[10,25,-9,-10,-8,-11,-12,-14,-13,]),'WHILE':([7,10,11,25,27,40,53,],[13,-9,13,-8,-12,-14,-13,]),'RETURN':([7,10,11,25,27,40,53,],[14,-9,14,-8,-12,-14,-13,]),'NUMBER':([7,10,11,14,25,27,28,29,31,32,33,34,40,51,53,],[20,-9,20,20,-8,-12,20,20,20,20,20,20,-14,20,-13,]),'TRUE':([7,10,11,14,25,27,28,29,31,32,33,34,40,51,53,],[22,-9,22,22,-8,-12,22,22,22,22,22,22,-14,22,-13,]),'FALSE':([7,10,11,14,25,27,28,29,31,32,33,34,40,51,53,],[23,-9,23,23,-8,-12,23,23,23,23,23,23,-14,23,-13,]),'LPAREN':([8,13,21,],[24,29,34,]),'PV':([12,15,16,17,18,19,20,21,22,23,30,38,41,42,43,45,50,],[27,-16,-18,-20,-22,-23,-24,-25,-26,-27,40,-15,-17,-19,-21,-29,-28,]),'IGUAL':([12,15,16,17,18,19,20,21,22,23,30,38,39,41,42,43,45,46,50,],[28,-16,-18,-20,-22,-23,-24,-25,-26,-27,28,-15,28,-17,-19,-21,-29,28,-28,]),'RPAREN':([15,16,17,18,19,20,21,22,23,24,34,36,38,39,41,42,43,44,45,46,47,50,54,55,],[-16,-18,-20,-22,-23,-24,-25,-26,-27,37,45,48,-15,49,-17,-19,-21,50,-29,-31,-6,-28,-30,-7,]),'COMMA':([15,16,17,18,19,20,21,22,23,38,41,42,43,45,46,47,50,],[-16,-18,-20,-22,-23,-24,-25,-26,-27,-15,-17,-19,-21,-29,51,52,-28,]),'SOMA':([15,16,17,18,19,20,21,22,23,38,41,42,43,45,50,],[31,-18,-20,-22,-23,-24,-25,-26,-27,31,-17,-19,-21,-29,-28,]),'VEZES':([16,17,18,19,20,21,22,23,41,42,43,45,50,],[32,-20,-22,-23,-24,-25,-26,-27,32,-19,-21,-29,-28,]),'POT':([18,19,20,21,22,23,45,50,],[33,-23,-24,-25,-26,-27,-29,-28,]),}
+_lr_action_items = {'ID':([0,2,4,6,7,10,11,14,17,19,20,34,35,37,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,67,70,93,94,96,97,98,100,101,104,105,106,107,109,110,111,112,113,],[4,4,8,-3,18,-9,18,18,43,-23,-24,61,-8,-12,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,90,-14,-22,18,18,18,61,-13,-20,-20,18,-17,18,-18,-19,-21,18,-15,-16,]),'$end':([1,2,5,6,10,35,],[0,-1,-2,-3,-9,-8,]),'LCHAV':([3,63,91,92,94,106,111,],[7,-5,-4,7,7,7,7,]),'RCHAV':([7,9,10,11,19,20,35,36,37,67,70,98,100,101,105,107,109,110,112,113,],[10,35,-9,-10,-23,-24,-8,-11,-12,-14,-22,-13,-20,-20,-17,-18,-19,-21,-15,-16,]),'WHILE':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[13,-9,13,-23,-24,-8,-12,-14,-22,13,-13,-20,-20,-17,13,-18,-19,-21,13,-15,-16,]),'RETURN':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[14,-9,14,-23,-24,-8,-12,-14,-22,14,-13,-20,-20,-17,14,-18,-19,-21,14,-15,-16,]),'FOR':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[15,-9,15,-23,-24,-8,-12,-14,-22,15,-13,-20,-20,-17,15,-18,-19,-21,15,-15,-16,]),'IF':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[16,-9,16,-23,-24,-8,-12,-14,-22,16,-13,-20,-20,-17,16,-18,-19,-21,16,-15,-16,]),'GOTO':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[17,-9,17,-23,-24,-8,-12,-14,-22,17,-13,-20,-20,-17,17,-18,-19,-21,17,-15,-16,]),'BREAK':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[19,-9,19,-23,-24,-8,-12,-14,-22,19,-13,-20,-20,-17,19,-18,-19,-21,19,-15,-16,]),'CONTINUE':([7,10,11,19,20,35,37,67,70,94,98,100,101,105,106,107,109,110,111,112,113,],[20,-9,20,-23,-24,-8,-12,-14,-22,20,-13,-20,-20,-17,20,-18,-19,-21,20,-15,-16,]),'NUMBER':([7,10,11,14,19,20,35,37,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,67,70,93,94,96,98,100,101,104,105,106,107,109,110,111,112,113,],[30,-9,30,30,-23,-24,-8,-12,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,-14,-22,30,30,30,-13,-20,-20,30,-17,30,-18,-19,-21,30,-15,-16,]),'TRUE':([7,10,11,14,19,20,35,37,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,67,70,93,94,96,98,100,101,104,105,106,107,109,110,111,112,113,],[31,-9,31,31,-23,-24,-8,-12,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,-14,-22,31,31,31,-13,-20,-20,31,-17,31,-18,-19,-21,31,-15,-16,]),'FALSE':([7,10,11,14,19,20,35,37,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,67,70,93,94,96,98,100,101,104,105,106,107,109,110,111,112,113,],[32,-9,32,32,-23,-24,-8,-12,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,-14,-22,32,32,32,-13,-20,-20,32,-17,32,-18,-19,-21,32,-15,-16,]),'LPAREN':([8,13,15,16,18,],[34,39,41,42,44,]),'ELSE':([10,19,20,35,37,67,70,98,100,101,105,107,109,110,112,113,],[-9,-23,-24,-8,-12,-14,-22,-13,106,106,-17,-18,-19,-21,-15,-16,]),'PV':([12,18,21,22,23,24,25,26,27,28,29,30,31,32,33,40,41,43,64,66,68,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,93,95,99,],[37,-54,-52,-50,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,67,-26,70,-51,-25,93,-59,-49,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-26,-58,104,]),'IGUAL':([12,18,21,22,23,24,25,26,27,28,29,30,31,32,33,40,64,66,69,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[38,-54,-52,-50,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,38,-51,38,38,-59,38,-49,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'POT':([18,28,29,30,31,32,33,72,86,87,88,89,95,],[-54,60,-28,-53,-55,-56,-57,-59,60,60,60,-27,-58,]),'VEZES':([18,27,28,29,30,31,32,33,72,84,85,86,87,88,89,95,],[-54,57,-30,-28,-53,-55,-56,-57,-59,57,57,-29,-31,-32,-27,-58,]),'BARRA':([18,27,28,29,30,31,32,33,72,84,85,86,87,88,89,95,],[-54,58,-30,-28,-53,-55,-56,-57,-59,58,58,-29,-31,-32,-27,-58,]),'DIFERENCA':([18,27,28,29,30,31,32,33,72,84,85,86,87,88,89,95,],[-54,59,-30,-28,-53,-55,-56,-57,-59,59,59,-29,-31,-32,-27,-58,]),'SOMA':([18,26,27,28,29,30,31,32,33,72,82,83,84,85,86,87,88,89,95,],[-54,55,-34,-30,-28,-53,-55,-56,-57,-59,55,55,-33,-35,-29,-31,-32,-27,-58,]),'SUBTRACAO':([18,26,27,28,29,30,31,32,33,72,82,83,84,85,86,87,88,89,95,],[-54,56,-34,-30,-28,-53,-55,-56,-57,-59,56,56,-33,-35,-29,-31,-32,-27,-58,]),'DESLOCAMENTOESQ':([18,25,26,27,28,29,30,31,32,33,72,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,53,-37,-34,-30,-28,-53,-55,-56,-57,-59,53,53,53,53,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'DESLOCAMENTODIR':([18,25,26,27,28,29,30,31,32,33,72,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,54,-37,-34,-30,-28,-53,-55,-56,-57,-59,54,54,54,54,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'MENORQUE':([18,24,25,26,27,28,29,30,31,32,33,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,49,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,49,49,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'MAIORQUE':([18,24,25,26,27,28,29,30,31,32,33,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,50,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,50,50,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'MENORIGUAL':([18,24,25,26,27,28,29,30,31,32,33,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,51,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,51,51,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'MAIORIGUAL':([18,24,25,26,27,28,29,30,31,32,33,72,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,52,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,52,52,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'IGUALDUPLO':([18,23,24,25,26,27,28,29,30,31,32,33,72,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,47,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'DIFERENTE':([18,23,24,25,26,27,28,29,30,31,32,33,72,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,48,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'AND':([18,22,23,24,25,26,27,28,29,30,31,32,33,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,46,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,-59,46,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'OR':([18,21,22,23,24,25,26,27,28,29,30,31,32,33,64,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,95,],[-54,45,-50,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,45,-59,-49,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-58,]),'RPAREN':([18,21,22,23,24,25,26,27,28,29,30,31,32,33,34,39,44,62,64,65,66,69,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,95,102,103,104,108,],[-54,-52,-50,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,63,-26,72,91,-51,92,-25,94,95,-59,-61,-49,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,-6,-58,-60,-7,-26,111,]),'COMMA':([18,21,22,23,24,25,26,27,28,29,30,31,32,33,64,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,95,],[-54,-52,-50,-48,-45,-43,-37,-34,-30,-28,-53,-55,-56,-57,-51,-59,96,-49,-47,-44,-46,-39,-40,-41,-42,-36,-38,-33,-35,-29,-31,-32,-27,97,-58,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,2,],[1,5,]),'funcdecl':([0,2,],[2,2,]),'signature':([0,2,],[3,3,]),'body':([3,49,],[6,53,]),'stms':([7,11,],[9,26,]),'stm':([7,11,],[11,11,]),'exp':([7,11,14,29,34,51,],[12,12,30,39,46,46,]),'exp1':([7,11,14,28,29,34,51,],[15,15,15,38,15,15,15,]),'exp2':([7,11,14,28,29,31,34,51,],[16,16,16,16,16,41,16,16,]),'exp3':([7,11,14,28,29,31,32,33,34,51,],[17,17,17,17,17,17,42,43,17,17,]),'exp4':([7,11,14,28,29,31,32,33,34,51,],[18,18,18,18,18,18,18,18,18,18,]),'call':([7,11,14,28,29,31,32,33,34,51,],[19,19,19,19,19,19,19,19,19,19,]),'sigparams':([24,52,],[36,55,]),'params':([34,51,],[44,54,]),}
+_lr_goto_items = {'program':([0,2,],[1,5,]),'funcdecl':([0,2,],[2,2,]),'signature':([0,2,],[3,3,]),'body':([3,92,94,106,111,],[6,98,101,109,113,]),'stms':([7,11,],[9,36,]),'stm':([7,11,94,106,111,],[11,11,100,110,112,]),'exp':([7,11,14,39,41,42,44,93,94,96,104,106,111,],[12,12,40,66,66,69,73,66,12,73,66,12,12,]),'exp1':([7,11,14,38,39,41,42,44,93,94,96,104,106,111,],[21,21,21,64,21,21,21,21,21,21,21,21,21,21,]),'exp2':([7,11,14,38,39,41,42,44,45,93,94,96,104,106,111,],[22,22,22,22,22,22,22,22,74,22,22,22,22,22,22,]),'exp3':([7,11,14,38,39,41,42,44,45,46,93,94,96,104,106,111,],[23,23,23,23,23,23,23,23,23,75,23,23,23,23,23,23,]),'exp4':([7,11,14,38,39,41,42,44,45,46,47,48,93,94,96,104,106,111,],[24,24,24,24,24,24,24,24,24,24,76,77,24,24,24,24,24,24,]),'exp5':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,93,94,96,104,106,111,],[25,25,25,25,25,25,25,25,25,25,25,25,78,79,80,81,25,25,25,25,25,25,]),'exp6':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,93,94,96,104,106,111,],[26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,82,83,26,26,26,26,26,26,]),'exp7':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,93,94,96,104,106,111,],[27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,84,85,27,27,27,27,27,27,]),'exp8':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,93,94,96,104,106,111,],[28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,86,87,88,28,28,28,28,28,28,]),'exp9':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,93,94,96,104,106,111,],[29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,89,29,29,29,29,29,29,]),'call':([7,11,14,38,39,41,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,93,94,96,104,106,111,],[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,]),'sigparams':([34,97,],[62,103,]),'opt_exp':([39,41,93,104,],[65,68,99,108,]),'params':([44,96,],[71,102,]),'optElse':([100,101,],[105,107,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,35 +27,65 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> funcdecl','program',1,'p_program','ExpressionLanguageParser.py',22),
-  ('program -> funcdecl program','program',2,'p_program','ExpressionLanguageParser.py',23),
-  ('funcdecl -> signature body','funcdecl',2,'p_funcdecl','ExpressionLanguageParser.py',31),
-  ('signature -> ID ID LPAREN sigparams RPAREN','signature',5,'p_signature','ExpressionLanguageParser.py',35),
-  ('signature -> ID ID LPAREN RPAREN','signature',4,'p_signature','ExpressionLanguageParser.py',36),
-  ('sigparams -> ID ID','sigparams',2,'p_sigparams','ExpressionLanguageParser.py',43),
-  ('sigparams -> ID ID COMMA sigparams','sigparams',4,'p_sigparams','ExpressionLanguageParser.py',44),
-  ('body -> LCHAV stms RCHAV','body',3,'p_body','ExpressionLanguageParser.py',52),
-  ('body -> LCHAV RCHAV','body',2,'p_body','ExpressionLanguageParser.py',53),
-  ('stms -> stm','stms',1,'p_stms','ExpressionLanguageParser.py',60),
-  ('stms -> stm stms','stms',2,'p_stms','ExpressionLanguageParser.py',61),
-  ('stm -> exp PV','stm',2,'p_stm','ExpressionLanguageParser.py',68),
-  ('stm -> WHILE LPAREN exp RPAREN body','stm',5,'p_stm','ExpressionLanguageParser.py',69),
-  ('stm -> RETURN exp PV','stm',3,'p_stm','ExpressionLanguageParser.py',70),
-  ('exp -> exp IGUAL exp1','exp',3,'p_exp_assign','ExpressionLanguageParser.py',81),
-  ('exp -> exp1','exp',1,'p_exp_assign','ExpressionLanguageParser.py',82),
-  ('exp1 -> exp1 SOMA exp2','exp1',3,'p_exp1_soma','ExpressionLanguageParser.py',89),
-  ('exp1 -> exp2','exp1',1,'p_exp1_soma','ExpressionLanguageParser.py',90),
-  ('exp2 -> exp2 VEZES exp3','exp2',3,'p_exp2_vezes','ExpressionLanguageParser.py',98),
-  ('exp2 -> exp3','exp2',1,'p_exp2_vezes','ExpressionLanguageParser.py',99),
-  ('exp3 -> exp4 POT exp3','exp3',3,'p_exp3_pot','ExpressionLanguageParser.py',107),
-  ('exp3 -> exp4','exp3',1,'p_exp3_pot','ExpressionLanguageParser.py',108),
-  ('exp4 -> call','exp4',1,'p_exp4_call','ExpressionLanguageParser.py',115),
-  ('exp4 -> NUMBER','exp4',1,'p_exp4_call','ExpressionLanguageParser.py',116),
-  ('exp4 -> ID','exp4',1,'p_exp4_call','ExpressionLanguageParser.py',117),
-  ('exp4 -> TRUE','exp4',1,'p_exp4_call','ExpressionLanguageParser.py',118),
-  ('exp4 -> FALSE','exp4',1,'p_exp4_call','ExpressionLanguageParser.py',119),
-  ('call -> ID LPAREN params RPAREN','call',4,'p_call_id_params','ExpressionLanguageParser.py',131),
-  ('call -> ID LPAREN RPAREN','call',3,'p_call_id_params','ExpressionLanguageParser.py',132),
-  ('params -> exp COMMA params','params',3,'p_params_ids','ExpressionLanguageParser.py',140),
-  ('params -> exp','params',1,'p_params_ids','ExpressionLanguageParser.py',141),
+  ('program -> funcdecl','program',1,'p_program','ExpressionLanguageParser.py',19),
+  ('program -> funcdecl program','program',2,'p_program','ExpressionLanguageParser.py',20),
+  ('funcdecl -> signature body','funcdecl',2,'p_funcdecl','ExpressionLanguageParser.py',28),
+  ('signature -> ID ID LPAREN sigparams RPAREN','signature',5,'p_signature','ExpressionLanguageParser.py',32),
+  ('signature -> ID ID LPAREN RPAREN','signature',4,'p_signature','ExpressionLanguageParser.py',33),
+  ('sigparams -> ID ID','sigparams',2,'p_sigparams','ExpressionLanguageParser.py',40),
+  ('sigparams -> ID ID COMMA sigparams','sigparams',4,'p_sigparams','ExpressionLanguageParser.py',41),
+  ('body -> LCHAV stms RCHAV','body',3,'p_body','ExpressionLanguageParser.py',49),
+  ('body -> LCHAV RCHAV','body',2,'p_body','ExpressionLanguageParser.py',50),
+  ('stms -> stm','stms',1,'p_stms','ExpressionLanguageParser.py',57),
+  ('stms -> stm stms','stms',2,'p_stms','ExpressionLanguageParser.py',58),
+  ('stm -> exp PV','stm',2,'p_stm','ExpressionLanguageParser.py',65),
+  ('stm -> WHILE LPAREN opt_exp RPAREN body','stm',5,'p_stm_while','ExpressionLanguageParser.py',69),
+  ('stm -> RETURN exp PV','stm',3,'p_stm_return','ExpressionLanguageParser.py',73),
+  ('stm -> FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN stm','stm',9,'p_stm_forSingle','ExpressionLanguageParser.py',77),
+  ('stm -> FOR LPAREN opt_exp PV opt_exp PV opt_exp RPAREN body','stm',9,'p_stm_forBlock','ExpressionLanguageParser.py',81),
+  ('stm -> IF LPAREN exp RPAREN stm optElse','stm',6,'p_stm_ifSingle','ExpressionLanguageParser.py',85),
+  ('stm -> IF LPAREN exp RPAREN body optElse','stm',6,'p_stm_ifBlock','ExpressionLanguageParser.py',94),
+  ('optElse -> ELSE body','optElse',2,'p_stm_optElseBlock','ExpressionLanguageParser.py',103),
+  ('optElse -> <empty>','optElse',0,'p_stm_optElseBlock','ExpressionLanguageParser.py',104),
+  ('optElse -> ELSE stm','optElse',2,'p_stm_optElseSingle','ExpressionLanguageParser.py',109),
+  ('stm -> GOTO ID PV','stm',3,'p_stm_GoTo','ExpressionLanguageParser.py',113),
+  ('stm -> BREAK','stm',1,'p_stm_break','ExpressionLanguageParser.py',117),
+  ('stm -> CONTINUE','stm',1,'p_stm_continue','ExpressionLanguageParser.py',121),
+  ('opt_exp -> exp','opt_exp',1,'p_opt_exp','ExpressionLanguageParser.py',125),
+  ('opt_exp -> <empty>','opt_exp',0,'p_opt_exp','ExpressionLanguageParser.py',126),
+  ('exp8 -> exp8 POT exp9','exp8',3,'p_exp_potencia','ExpressionLanguageParser.py',131),
+  ('exp8 -> exp9','exp8',1,'p_exp_potencia','ExpressionLanguageParser.py',132),
+  ('exp7 -> exp7 VEZES exp8','exp7',3,'p_exp_multiplicacao','ExpressionLanguageParser.py',139),
+  ('exp7 -> exp8','exp7',1,'p_exp_multiplicacao','ExpressionLanguageParser.py',140),
+  ('exp7 -> exp7 BARRA exp8','exp7',3,'p_exp_divisao','ExpressionLanguageParser.py',147),
+  ('exp7 -> exp7 DIFERENCA exp8','exp7',3,'p_exp_diferenca','ExpressionLanguageParser.py',151),
+  ('exp6 -> exp6 SOMA exp7','exp6',3,'p_exp_soma','ExpressionLanguageParser.py',155),
+  ('exp6 -> exp7','exp6',1,'p_exp_soma','ExpressionLanguageParser.py',156),
+  ('exp6 -> exp6 SUBTRACAO exp7','exp6',3,'p_exp_subtracao','ExpressionLanguageParser.py',163),
+  ('exp5 -> exp5 DESLOCAMENTOESQ exp6','exp5',3,'p_exp_Ldesc','ExpressionLanguageParser.py',167),
+  ('exp5 -> exp6','exp5',1,'p_exp_Ldesc','ExpressionLanguageParser.py',168),
+  ('exp5 -> exp5 DESLOCAMENTODIR exp6','exp5',3,'p_exp_Rdesc','ExpressionLanguageParser.py',175),
+  ('exp4 -> exp4 MENORQUE exp5','exp4',3,'p_exp_menorQue','ExpressionLanguageParser.py',179),
+  ('exp4 -> exp4 MAIORQUE exp5','exp4',3,'p_exp_maiorQue','ExpressionLanguageParser.py',183),
+  ('exp4 -> exp4 MENORIGUAL exp5','exp4',3,'p_exp_menorIgual','ExpressionLanguageParser.py',187),
+  ('exp4 -> exp4 MAIORIGUAL exp5','exp4',3,'p_exp_maiorIgual','ExpressionLanguageParser.py',191),
+  ('exp4 -> exp5','exp4',1,'p_exp_maiorIgual','ExpressionLanguageParser.py',192),
+  ('exp3 -> exp3 IGUALDUPLO exp4','exp3',3,'p_exp_igualDuplo','ExpressionLanguageParser.py',199),
+  ('exp3 -> exp4','exp3',1,'p_exp_igualDuplo','ExpressionLanguageParser.py',200),
+  ('exp3 -> exp3 DIFERENTE exp4','exp3',3,'p_exp_diferente','ExpressionLanguageParser.py',207),
+  ('exp2 -> exp2 AND exp3','exp2',3,'p_exp_and','ExpressionLanguageParser.py',211),
+  ('exp2 -> exp3','exp2',1,'p_exp_and','ExpressionLanguageParser.py',212),
+  ('exp1 -> exp1 OR exp2','exp1',3,'p_exp_or','ExpressionLanguageParser.py',219),
+  ('exp1 -> exp2','exp1',1,'p_exp_or','ExpressionLanguageParser.py',220),
+  ('exp -> exp IGUAL exp1','exp',3,'p_exp','ExpressionLanguageParser.py',227),
+  ('exp -> exp1','exp',1,'p_exp','ExpressionLanguageParser.py',228),
+  ('exp9 -> NUMBER','exp9',1,'p_exp9_number','ExpressionLanguageParser.py',235),
+  ('exp9 -> ID','exp9',1,'p_exp9_id','ExpressionLanguageParser.py',239),
+  ('exp9 -> TRUE','exp9',1,'p_exp9_boolean','ExpressionLanguageParser.py',243),
+  ('exp9 -> FALSE','exp9',1,'p_exp9_boolean','ExpressionLanguageParser.py',244),
+  ('exp9 -> call','exp9',1,'p_exp9_call','ExpressionLanguageParser.py',249),
+  ('call -> ID LPAREN params RPAREN','call',4,'p_call_id_params','ExpressionLanguageParser.py',254),
+  ('call -> ID LPAREN RPAREN','call',3,'p_call_id_params','ExpressionLanguageParser.py',255),
+  ('params -> exp COMMA params','params',3,'p_params_ids','ExpressionLanguageParser.py',263),
+  ('params -> exp','params',1,'p_params_ids','ExpressionLanguageParser.py',264),
 ]

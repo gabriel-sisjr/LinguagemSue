@@ -147,32 +147,16 @@ class StmForBlock(Stm):
     def accept(self, visitor):
         return visitor.visitStmForBlock(self)
 
-class StmIfSingle(Stm):
-    def __init__(self, exp, stm):
+class StmIf(Stm):
+    def __init__(self, exp= None, stm= None, block= None, stm2= None, block2= None):
         self.exp = exp
         self.stm = stm
-    def accept(self, visitor):
-        return visitor.visitStmIfSingle(self)
-
-class StmIfBlock(Stm):
-    def __init__(self, exp, block):
-        self.exp = exp
+        self.stm2 = stm2
         self.block = block
+        self.block2 = block2
     def accept(self, visitor):
-        return visitor.visitStmIfBlock(self)
+        return visitor.visitStmIf(self)
 
-class StmElseSingle(Stm):
-    def __init__(self, stm):
-        self.stm = stm
-    def accept(self, visitor):
-        return visitor.visitStmElse(self)
-    
-class StmElseBlock(Stm):
-    def __init__(self, block):
-        self.block = block
-    def accept(self, visitor):
-        return visitor.visitStmElse(self)
-    
 class StmGoTo(Stm):
     def __init__(self, label):
         self.label = label
