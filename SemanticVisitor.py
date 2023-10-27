@@ -117,7 +117,7 @@ class SemanticVisitor(AbstractVisitor):
             print(' eh do tipo', tipoExp2,'\n')
         return c
     
-    def visitDivisaoExp(self, divisaoExp):
+    def visitDivExp(self, divisaoExp):
         tipoExp1 = divisaoExp.exp1.accept(self)
         tipoExp2 = divisaoExp.exp2.accept(self)
         c = coercion(tipoExp1, tipoExp2)
@@ -129,7 +129,46 @@ class SemanticVisitor(AbstractVisitor):
             divisaoExp.exp2.accept(self.printer)
             print(' eh do tipo', tipoExp2,'\n')
         return c
-
+    
+    def visitLdescExp(self, LdescExp):
+        tipoExp1 = LdescExp.exp1.accept(self)
+        tipoExp2 = LdescExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            LdescExp.accept(self.printer)
+            print('\n\t[Erro] Desdencia pela esquerda invalida. A expressao ', end='')
+            LdescExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            LdescExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitRdescExp(self, RdescExp):
+        tipoExp1 = RdescExp.exp1.accept(self)
+        tipoExp2 = RdescExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            RdescExp.accept(self.printer)
+            print('\n\t[Erro] Desdencia pela direita invalida. A expressao ', end='')
+            RdescExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            RdescExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitDiferencaExp(self, DiferencaExp):
+        tipoExp1 = DiferencaExp.exp1.accept(self)
+        tipoExp2 = DiferencaExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            DiferencaExp.accept(self.printer)
+            print('\n\t[Erro] Diferença invalida. A expressao ', end='')
+            DiferencaExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            DiferencaExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
     def visitPotExp(self, potExp):
         tipoExp1 = potExp.exp1.accept(self)
         tipoExp2 = potExp.exp2.accept(self)
@@ -140,6 +179,110 @@ class SemanticVisitor(AbstractVisitor):
             potExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             potExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitMenorQueExp(self, menorQueExp):
+        tipoExp1 = menorQueExp.exp1.accept(self)
+        tipoExp2 = menorQueExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            menorQueExp.accept(self.printer)
+            print('\n\t[Erro] Menor que invalido. A expressao ', end='')
+            menorQueExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            menorQueExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitMaiorQueExp(self, maiorQueExp):
+        tipoExp1 = maiorQueExp.exp1.accept(self)
+        tipoExp2 = maiorQueExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            maiorQueExp.accept(self.printer)
+            print('\n\t[Erro] Maior que invalido. A expressao ', end='')
+            maiorQueExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            maiorQueExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitMenorIgualExp(self, menorIgualExp):
+        tipoExp1 = menorIgualExp.exp1.accept(self)
+        tipoExp2 = menorIgualExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            menorIgualExp.accept(self.printer)
+            print('\n\t[Erro] MenorIgual invalido. A expressao ', end='')
+            menorIgualExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            menorIgualExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitMaiorIgualExp(self, maiorIgualExp):
+        tipoExp1 = maiorIgualExp.exp1.accept(self)
+        tipoExp2 = maiorIgualExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            maiorIgualExp.accept(self.printer)
+            print('\n\t[Erro] MaiorIgual invalido. A expressao ', end='')
+            maiorIgualExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            maiorIgualExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitDuploIgualExp(self, duploIgualExp):
+        tipoExp1 = duploIgualExp.exp1.accept(self)
+        tipoExp2 = duploIgualExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            duploIgualExp.accept(self.printer)
+            print('\n\t[Erro] Duplo Igual invalido. A expressao ', end='')
+            duploIgualExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            duploIgualExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitDiferenteExp(self, diferenteExp):
+        tipoExp1 = diferenteExp.exp1.accept(self)
+        tipoExp2 = diferenteExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            diferenteExp.accept(self.printer)
+            print('\n\t[Erro] Diferente invalido. A expressao ', end='')
+            diferenteExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            diferenteExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitAndExp(self, andExp):
+        tipoExp1 = andExp.exp1.accept(self)
+        tipoExp2 = andExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            andExp.accept(self.printer)
+            print('\n\t[Erro] And invalido. A expressao ', end='')
+            andExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            andExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitOrExp(self, orExp):
+        tipoExp1 = orExp.exp1.accept(self)
+        tipoExp2 = orExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            orExp.accept(self.printer)
+            print('\n\t[Erro] Or invalido. A expressao ', end='')
+            orExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            orExp.exp2.accept(self.printer)
             print(' eh do tipo', tipoExp2,'\n')
         return c
 
