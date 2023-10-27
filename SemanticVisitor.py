@@ -91,6 +91,18 @@ class SemanticVisitor(AbstractVisitor):
             print(' eh do tipo', tipoExp2,'\n')
         return c
 
+    def visitSubtracaoExp(self, subtracaoExp):
+        tipoExp1 = subtracaoExp.exp1.accept(self)
+        tipoExp2 = subtracaoExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            subtracaoExp.accept(self.printer)
+            print('\n\t[Erro] Subtracao invalida. A expressao ', end='')
+            subtracaoExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            subtracaoExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
 
     def visitMulExp(self, mulExp):
         tipoExp1 = mulExp.exp1.accept(self)
@@ -98,10 +110,23 @@ class SemanticVisitor(AbstractVisitor):
         c = coercion(tipoExp1, tipoExp2)
         if (c == None):
             mulExp.accept(self.printer)
-            print('\n\t[Erro] Soma invalida. A expressao ', end='')
+            print('\n\t[Erro] Multiplicacao invalida. A expressao ', end='')
             mulExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             mulExp.exp2.accept(self.printer)
+            print(' eh do tipo', tipoExp2,'\n')
+        return c
+    
+    def visitDivisaoExp(self, divisaoExp):
+        tipoExp1 = divisaoExp.exp1.accept(self)
+        tipoExp2 = divisaoExp.exp2.accept(self)
+        c = coercion(tipoExp1, tipoExp2)
+        if (c == None):
+            divisaoExp.accept(self.printer)
+            print('\n\t[Erro] Divisao invalida. A expressao ', end='')
+            divisaoExp.exp1.accept(self.printer)
+            print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
+            divisaoExp.exp2.accept(self.printer)
             print(' eh do tipo', tipoExp2,'\n')
         return c
 
@@ -111,7 +136,7 @@ class SemanticVisitor(AbstractVisitor):
         c = coercion(tipoExp1, tipoExp2)
         if (c == None):
             potExp.accept(self.printer)
-            print('\n\t[Erro] Soma invalida. A expressao ', end='')
+            print('\n\t[Erro] Potencia invalida. A expressao ', end='')
             potExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             potExp.exp2.accept(self.printer)

@@ -244,7 +244,6 @@ def main():
     lexer.input(f.read())
     parser = yacc.yacc()
     result = parser.parse(debug=False)
-    print("#imprime o programa que foi passado como entrada")
     visitor = Visitor()
     for r in result:
         r.accept(visitor)
