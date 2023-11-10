@@ -1,6 +1,7 @@
 from Visitor import *
 import SymbolTable as st
 
+
 def coercion(type1, type2):
     if (type1 in st.Number and type2 in st.Number):
         if (type1 == st.FLOAT or type2 == st.FLOAT):
@@ -9,6 +10,7 @@ def coercion(type1, type2):
             return st.INT
     else:
         return None
+
 
 class SemanticVisitor(AbstractVisitor):
 
@@ -22,11 +24,13 @@ class SemanticVisitor(AbstractVisitor):
 
     def visitSignatureConcrete(self, signatureConcrete):
         params = {}
-        if (signatureConcrete.sigParams!= None):
+        if (signatureConcrete.sigParams != None):
             params = signatureConcrete.sigParams.accept(self)
-            st.addFunction(signatureConcrete.id, params, signatureConcrete.type)
+            st.addFunction(signatureConcrete.id, params,
+                           signatureConcrete.type)
         else:
-            st.addFunction(signatureConcrete.id, params, signatureConcrete.type)
+            st.addFunction(signatureConcrete.id, params,
+                           signatureConcrete.type)
         st.beginScope(signatureConcrete.id)
         for k in range(0, len(params), 2):
             st.addVar(params[k], params[k+1])
@@ -55,27 +59,51 @@ class SemanticVisitor(AbstractVisitor):
         type = stmWhile.exp.accept(self)
         if (type != st.BOOL):
             stmWhile.exp.accept(self.printer)
-            print ("\n\t[Erro] A expressao ", end='')
+            print("\n\t[Erro] A expressao ", end='')
             stmWhile.exp.accept(self.printer)
             print(" eh", type, end='')
-            print (". Deveria ser boolean\n")
+            print(". Deveria ser boolean\n")
         stmWhile.block.accept(self)
+
+    def visitStmForSingle(self, stmForSingle):
+        stmForSingle.exp.accept(self)
+        type = stmForSingle.exp2.accept(self)
+        if (type != st.BOOL):
+            stmForSingle.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForSingle.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser boolean\n")
+        stmForSingle.exp3.accept(self)
+        stmForSingle.stm.accept(self)
+
+    def visitStmForBlock(self, stmForBlock):
+        stmForBlock.exp.accept(self)
+        type = stmForBlock.exp2.accept(self)
+        if (type != st.BOOL):
+            stmForBlock.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForBlock.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser boolean\n")
+        stmForBlock.exp3.accept(self)
+        stmForBlock.block.accept(self)
 
     def visitStmIf(self, stmIf):
         type = stmIf.exp.accept(self)
-        if(type != st.BOOL):
+        if (type != st.BOOL):
             stmIf.exp.accept(self.printer)
-            print ("\n\t[Erro] A expressao ", end='')
+            print("\n\t[Erro] A expressao ", end='')
             stmIf.exp.accept(self.printer)
             print(" eh", type, end='')
-            print (". Deveria ser boolean\n")
-        if(stmIf.stm != None):
+            print(". Deveria ser boolean\n")
+        if (stmIf.stm != None):
             stmIf.stm.accept(self)
-        if(stmIf.block != None):
+        if (stmIf.block != None):
             stmIf.block.accept(self)
-        if(stmIf.stm2 != None):
+        if (stmIf.stm2 != None):
             stmIf.stm2.accept(self)
-        if(stmIf.block2 != None):
+        if (stmIf.block2 != None):
             stmIf.block2.accept(self)
 
     def visitStmReturn(self, stmReturn):
@@ -84,7 +112,8 @@ class SemanticVisitor(AbstractVisitor):
         bindable = st.getBindable(scope)
         if (typeExp != bindable[st.TYPE]):
             stmReturn.accept(self.printer)
-            print('\t[Erro] O retorno da funcao', scope, 'eh do tipo', bindable[st.TYPE],end='')
+            print('\t[Erro] O retorno da funcao', scope,
+                  'eh do tipo', bindable[st.TYPE], end='')
             print(' no entanto, o retorno passado foi do tipo', typeExp, '\n')
         st.endScope()
 
@@ -105,7 +134,7 @@ class SemanticVisitor(AbstractVisitor):
             somaExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             somaExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
 
     def visitSubtracaoExp(self, subtracaoExp):
@@ -118,7 +147,7 @@ class SemanticVisitor(AbstractVisitor):
             subtracaoExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             subtracaoExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
 
     def visitMulExp(self, mulExp):
@@ -131,9 +160,9 @@ class SemanticVisitor(AbstractVisitor):
             mulExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             mulExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitDivExp(self, divisaoExp):
         tipoExp1 = divisaoExp.exp1.accept(self)
         tipoExp2 = divisaoExp.exp2.accept(self)
@@ -144,35 +173,37 @@ class SemanticVisitor(AbstractVisitor):
             divisaoExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             divisaoExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitLdescExp(self, LdescExp):
         tipoExp1 = LdescExp.exp1.accept(self)
         tipoExp2 = LdescExp.exp2.accept(self)
         c = coercion(tipoExp1, tipoExp2)
         if (c == None):
             LdescExp.accept(self.printer)
-            print('\n\t[Erro] Desdencia pela esquerda invalida. A expressao ', end='')
+            print(
+                '\n\t[Erro] Desdencia pela esquerda invalida. A expressao ', end='')
             LdescExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             LdescExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitRdescExp(self, RdescExp):
         tipoExp1 = RdescExp.exp1.accept(self)
         tipoExp2 = RdescExp.exp2.accept(self)
         c = coercion(tipoExp1, tipoExp2)
         if (c == None):
             RdescExp.accept(self.printer)
-            print('\n\t[Erro] Desdencia pela direita invalida. A expressao ', end='')
+            print(
+                '\n\t[Erro] Desdencia pela direita invalida. A expressao ', end='')
             RdescExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             RdescExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitDiferencaExp(self, DiferencaExp):
         tipoExp1 = DiferencaExp.exp1.accept(self)
         tipoExp2 = DiferencaExp.exp2.accept(self)
@@ -183,9 +214,9 @@ class SemanticVisitor(AbstractVisitor):
             DiferencaExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             DiferencaExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitPotExp(self, potExp):
         tipoExp1 = potExp.exp1.accept(self)
         tipoExp2 = potExp.exp2.accept(self)
@@ -196,9 +227,9 @@ class SemanticVisitor(AbstractVisitor):
             potExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             potExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitMenorQueExp(self, menorQueExp):
         tipoExp1 = menorQueExp.exp1.accept(self)
         tipoExp2 = menorQueExp.exp2.accept(self)
@@ -209,9 +240,9 @@ class SemanticVisitor(AbstractVisitor):
             menorQueExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             menorQueExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitMaiorQueExp(self, maiorQueExp):
         tipoExp1 = maiorQueExp.exp1.accept(self)
         tipoExp2 = maiorQueExp.exp2.accept(self)
@@ -222,9 +253,9 @@ class SemanticVisitor(AbstractVisitor):
             maiorQueExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             maiorQueExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitMenorIgualExp(self, menorIgualExp):
         tipoExp1 = menorIgualExp.exp1.accept(self)
         tipoExp2 = menorIgualExp.exp2.accept(self)
@@ -235,9 +266,9 @@ class SemanticVisitor(AbstractVisitor):
             menorIgualExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             menorIgualExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitMaiorIgualExp(self, maiorIgualExp):
         tipoExp1 = maiorIgualExp.exp1.accept(self)
         tipoExp2 = maiorIgualExp.exp2.accept(self)
@@ -248,9 +279,9 @@ class SemanticVisitor(AbstractVisitor):
             maiorIgualExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             maiorIgualExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitDuploIgualExp(self, duploIgualExp):
         tipoExp1 = duploIgualExp.exp1.accept(self)
         tipoExp2 = duploIgualExp.exp2.accept(self)
@@ -261,9 +292,9 @@ class SemanticVisitor(AbstractVisitor):
             duploIgualExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             duploIgualExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitDiferenteExp(self, diferenteExp):
         tipoExp1 = diferenteExp.exp1.accept(self)
         tipoExp2 = diferenteExp.exp2.accept(self)
@@ -274,9 +305,9 @@ class SemanticVisitor(AbstractVisitor):
             diferenteExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             diferenteExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitAndExp(self, andExp):
         tipoExp1 = andExp.exp1.accept(self)
         tipoExp2 = andExp.exp2.accept(self)
@@ -287,9 +318,9 @@ class SemanticVisitor(AbstractVisitor):
             andExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             andExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
-    
+
     def visitOrExp(self, orExp):
         tipoExp1 = orExp.exp1.accept(self)
         tipoExp2 = orExp.exp2.accept(self)
@@ -300,7 +331,7 @@ class SemanticVisitor(AbstractVisitor):
             orExp.exp1.accept(self.printer)
             print(' eh do tipo', tipoExp1, 'enquanto a expressao ', end='')
             orExp.exp2.accept(self.printer)
-            print(' eh do tipo', tipoExp2,'\n')
+            print(' eh do tipo', tipoExp2, '\n')
         return c
 
     def visitCallExp(self, callExp):
@@ -328,8 +359,10 @@ class SemanticVisitor(AbstractVisitor):
             if (list(bindable[st.PARAMS][1::2]) == typeParams):
                 return bindable[st.TYPE]
             paramsCall.accept(self.printer)
-            print("\n\t[Erro] Chamada de funcao invalida. Tipos passados na chamada sao:", typeParams)
-            print('\tenquanto que os tipos definidos no metodo sao:', bindable[st.PARAMS][1::2], '\n')
+            print(
+                "\n\t[Erro] Chamada de funcao invalida. Tipos passados na chamada sao:", typeParams)
+            print('\tenquanto que os tipos definidos no metodo sao:',
+                  bindable[st.PARAMS][1::2], '\n')
         else:
             paramsCall.accept(self.printer)
             print("\n\t[Erro] Chamada de funcao invalida. O id", paramsCall.id,
@@ -341,7 +374,8 @@ class SemanticVisitor(AbstractVisitor):
         if (bindable != None and bindable[st.BINDABLE] == st.FUNCTION):
             return bindable[st.TYPE]
         simpleCall.accept(self.printer)
-        print("\n\t[Erro] Chamada de funcao invalida. O id", simpleCall.id, "nao eh de uma funcao, nao foi definido ou foi definido apos esta funcao\n")
+        print("\n\t[Erro] Chamada de funcao invalida. O id", simpleCall.id,
+              "nao eh de uma funcao, nao foi definido ou foi definido apos esta funcao\n")
         return None
 
     def visitCompoundParams(self, compoundParams):
