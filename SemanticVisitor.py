@@ -61,6 +61,23 @@ class SemanticVisitor(AbstractVisitor):
             print (". Deveria ser boolean\n")
         stmWhile.block.accept(self)
 
+    def visitStmIf(self, stmIf):
+        type = stmIf.exp.accept(self)
+        if(type != st.BOOL):
+            stmIf.exp.accept(self.printer)
+            print ("\n\t[Erro] A expressao ", end='')
+            stmIf.exp.accept(self.printer)
+            print(" eh", type, end='')
+            print (". Deveria ser boolean\n")
+        if(stmIf.stm != None):
+            stmIf.stm.accept(self)
+        if(stmIf.block != None):
+            stmIf.block.accept(self)
+        if(stmIf.stm2 != None):
+            stmIf.stm2.accept(self)
+        if(stmIf.block2 != None):
+            stmIf.block2.accept(self)
+
     def visitStmReturn(self, stmReturn):
         typeExp = stmReturn.exp.accept(self)
         scope = st.symbolTable[-1][st.SCOPE]
