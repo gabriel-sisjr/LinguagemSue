@@ -11,6 +11,12 @@ def coercion(type1, type2):
     else:
         return None
 
+def isNumber(acceptType):
+    if(acceptType in st.Number):
+        return True
+    else:
+        return False
+
 
 class SemanticVisitor(AbstractVisitor):
 
@@ -66,6 +72,13 @@ class SemanticVisitor(AbstractVisitor):
         stmWhile.block.accept(self)
 
     def visitStmForSingle(self, stmForSingle):
+        type = stmForSingle.exp.accept(self)
+        if (isNumber(type)):
+            stmForSingle.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForSingle.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser uma expressao numerica.\n")
         stmForSingle.exp.accept(self)
         type = stmForSingle.exp2.accept(self)
         if (type != st.BOOL):
@@ -74,19 +87,38 @@ class SemanticVisitor(AbstractVisitor):
             stmForSingle.exp2.accept(self.printer)
             print(" eh", type, end='')
             print(". Deveria ser boolean\n")
-        stmForSingle.exp3.accept(self)
+        type = stmForSingle.exp3.accept(self)
+        if (isNumber(type)):
+            stmForSingle.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForSingle.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser uma expressao numerica.\n")
         stmForSingle.stm.accept(self)
 
     def visitStmForBlock(self, stmForBlock):
+        type = stmForBlock.exp.accept(self)
+        if (isNumber(type)):
+            stmForBlock.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForBlock.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser uma expressao numerica.\n")
         stmForBlock.exp.accept(self)
-        type = stmForBlock.exp2.accept(self)
+        type = stmForSingle.exp2.accept(self)
         if (type != st.BOOL):
             stmForBlock.exp2.accept(self.printer)
             print("\n\t[Erro] A expressao ", end='')
             stmForBlock.exp2.accept(self.printer)
             print(" eh", type, end='')
             print(". Deveria ser boolean\n")
-        stmForBlock.exp3.accept(self)
+        type = stmForBlock.exp3.accept(self)
+        if (isNumber(type)):
+            stmForBlock.exp2.accept(self.printer)
+            print("\n\t[Erro] A expressao ", end='')
+            stmForBlock.exp2.accept(self.printer)
+            print(" eh", type, end='')
+            print(". Deveria ser uma expressao numerica.\n")
         stmForBlock.block.accept(self)
 
     def visitStmIf(self, stmIf):
